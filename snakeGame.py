@@ -16,13 +16,17 @@ pygame.display.update()
 
 exitGame = False
 gameOver = False
+snakeX = 45
+snakeY = 55
+snakeSize = 10
+
 
 while not exitGame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exitGame = TRUE
-        print(event)
     gameWindow.fill(white)
+    pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
     pygame.display.update()
 
 pygame.quit()
