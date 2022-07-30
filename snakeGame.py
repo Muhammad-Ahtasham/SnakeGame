@@ -1,5 +1,4 @@
-from pickle import TRUE
-from numpy import true_divide
+import random
 import pygame
 pygame.init()
 
@@ -18,10 +17,12 @@ exitGame = False
 gameOver = False
 snakeX = 45
 snakeY = 55
-velocityX = 1
-velocityY = 1  
+velocityX = 0
+velocityY = 0  
 snakeSize = 10
 fps = 30            #frames per second
+foodX = random.randint(0, screenWidth)
+foodY = random.randint(0, screenHeight)
 
 
 clock = pygame.time.Clock()
@@ -32,13 +33,17 @@ while not exitGame:
             exitGame = TRUE
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                snakeX = snakeX+10
+                velocityX = 10
+                velocityY = 0
             if event.key == pygame.K_LEFT:
-                snakeX = snakeX-10
+                velocityY = 0
+                velocityX = -10
             if event.key == pygame.K_UP:
-                snakeY = snakeY-10
+                velocityX = 0
+                velocityY = -10
             if event.key == pygame.K_DOWN:
-                snakeY = snakeY+10
+                velocityX = 0
+                velocityY = 10
     
     snakeX = snakeX + velocityX
     snakeY = snakeY + velocityY
