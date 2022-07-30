@@ -52,6 +52,7 @@ while not exitGame:
 
     gameWindow.fill(white)
     pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
+    pygame.draw.rect(gameWindow, red, [foodX, foodY, snakeSize, snakeSize])
     pygame.display.update()
     clock.tick(fps)
 
