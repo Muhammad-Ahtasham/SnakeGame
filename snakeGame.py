@@ -29,7 +29,12 @@ foodY = random.randint(20, screenHeight/2)
 # creating score
 score = 0
 clock = pygame.time.Clock()
-
+font = pygame.font.SysFont(None, 55)
+def screenScore(text, color, x, y):
+    screenText = font.render(text, True, color) # is ma  true is antialising --> high to low resolution convertion
+    
+    # blit is used to update it all on screen
+    gameWindow.blit(screenText, [x, y]) 
 while not exitGame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -52,12 +57,14 @@ while not exitGame:
     snakeY = snakeY + velocityY
     if abs(snakeX-foodX)<6 and abs(snakeY-foodY)<6:
         score += 1
+        
         foodX = random.randint(20, screenWidth/2)
         foodY = random.randint(20, screenHeight/2) 
         print('Score: ', score)
 
 
     gameWindow.fill(white)
+    screenScore('Score: ' + str(score), red, 5, 5)
     pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
     pygame.draw.rect(gameWindow, red, [foodX, foodY, snakeSize, snakeSize])
     pygame.display.update()
