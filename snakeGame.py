@@ -21,16 +21,19 @@ velocityX = 0
 velocityY = 0  
 snakeSize = 10
 fps = 30            #frames per second
-foodX = random.randint(0, screenWidth)
-foodY = random.randint(0, screenHeight)
 
+#created food for the snake
+foodX = random.randint(20, screenWidth/2)
+foodY = random.randint(20, screenHeight/2)
 
+# creating score
+score = 0
 clock = pygame.time.Clock()
 
 while not exitGame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            exitGame = TRUE
+            exitGame = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 velocityX = 10
@@ -47,7 +50,11 @@ while not exitGame:
     
     snakeX = snakeX + velocityX
     snakeY = snakeY + velocityY
-
+    if abs(snakeX-foodX)<6 and abs(snakeY-foodY)<6:
+        score += 1
+        foodX = random.randint(20, screenWidth/2)
+        foodY = random.randint(20, screenHeight/2) 
+        print('Score: ', score)
 
 
     gameWindow.fill(white)
