@@ -18,6 +18,8 @@ exitGame = False
 gameOver = False
 snakeX = 45
 snakeY = 55
+velocityX = 1
+velocityY = 1  
 snakeSize = 10
 fps = 30            #frames per second
 
@@ -37,6 +39,9 @@ while not exitGame:
                 snakeY = snakeY-10
             if event.key == pygame.K_DOWN:
                 snakeY = snakeY+10
+    
+    snakeX = snakeX + velocityX
+    snakeY = snakeY + velocityY
 
 
 
