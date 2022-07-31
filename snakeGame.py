@@ -1,7 +1,9 @@
 import random
-from turtle import color
+import os
 import pygame
+
 pygame.init()
+pygame.mixer.init()
 
 #colours
 white = (255, 255, 255)
@@ -28,7 +30,7 @@ def plotSnake(gameWindow, color, snakeList, snakeSize):
     for x, y in snakeList:
         pygame.draw.rect(gameWindow, color, [x, y, snakeSize, snakeSize])
 
-def welcome():
+def welcome(): 
     exitGame = False
     while not exitGame:
         gameWindow.fill(black)
@@ -39,6 +41,8 @@ def welcome():
                 exitGame = True
             if events.type == pygame.KEYDOWN:
                 if events.key == pygame.K_SPACE:
+                    # pygame.mixer.music.load('bg.mp3')
+                    # pygame.mixer.music.play()
                     gameLoop()
         pygame.display.update()
         clock.tick(30)
@@ -58,6 +62,9 @@ def gameLoop():
 
     snakeList = []
     snakeLength = 1
+    if (not os.path.exists("highScore.txt")):
+        with open("highScore.txt", "w") as f:
+            f.write("0")
     with open("highScore.txt", "r") as f:
         highScore =  f.read()
     #created food for the snake
@@ -102,6 +109,8 @@ def gameLoop():
                 score += 1
                 foodX = random.randint(20, screenWidth/2)
                 foodY = random.randint(20, screenHeight/2) 
+                pygame.mixer.music.load("beep.mp3")
+                pygame.mixer.music.play()
                 snakeLength += 5
                 if score>int(highScore):
                     highScore = score
@@ -120,8 +129,12 @@ def gameLoop():
 
             if snakeX <0 or snakeX>screenWidth or snakeY<0 or snakeY>screenHeight:
                 gameOver = True
+                pygame.mixer.music.load("exp.wav")
+                pygame.mixer.music.play()
             if head in snakeList[:-1]:
                 gameOver = True
+                pygame.mixer.music.load("exp.wav")
+                pygame.mixer.music.play()
             plotSnake(gameWindow, black, snakeList, snakeSize)
         pygame.display.update()
         clock.tick(fps)
