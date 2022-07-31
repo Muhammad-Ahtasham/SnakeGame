@@ -7,7 +7,7 @@ pygame.init()
 white = (255, 255, 255)
 red = (255, 0, 0)
 black = (0, 0, 0)
-screenWidth = 900
+screenWidth = 1000
 screenHeight = 600
 
 gameWindow = pygame.display.set_mode((screenWidth, screenHeight))
@@ -17,6 +17,7 @@ pygame.display.update()
 
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 55)
+
 def screenScore(text, color, x, y):
     screenText = font.render(text, True, color) # is ma  true is antialising --> high to low resolution convertion
     
@@ -42,12 +43,15 @@ def gameLoop():
 
     snakeList = []
     snakeLength = 1
-
+    with open("highScore.txt", "r") as f:
+        highScore =  f.read()
     #created food for the snake
     foodX = random.randint(20, screenWidth/2)
     foodY = random.randint(20, screenHeight/2)
     while not exitGame:    
         if gameOver:
+            with open("highScore.txt", "w") as f:
+                f.write(str(highScore)) 
             gameWindow.fill(white)
             screenScore("Game Over! Press Enter to Continue", red, screenWidth/7, screenHeight/2)
 
@@ -82,10 +86,12 @@ def gameLoop():
                 foodX = random.randint(20, screenWidth/2)
                 foodY = random.randint(20, screenHeight/2) 
                 snakeLength += 5
-                
+                if score>int(highScore):
+                    highScore = score
+                    print(highScore)
 
             gameWindow.fill(white)
-            screenScore('Score: ' + str(score), red, 5, 5)
+            screenScore('Score: ' + str(score)+ "             HighScore: "+ str(highScore), red, 5, 5)
             # pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
             pygame.draw.rect(gameWindow, red, [foodX, foodY, snakeSize, snakeSize])
 
