@@ -11,7 +11,7 @@ screenWidth = 1000
 screenHeight = 600
 
 gameWindow = pygame.display.set_mode((screenWidth, screenHeight))
-pygame.display.set_caption("SnakeWithAtiii")
+pygame.display.set_caption("NaganGame")
 pygame.display.update()
 
 
@@ -27,6 +27,21 @@ def screenScore(text, color, x, y):
 def plotSnake(gameWindow, color, snakeList, snakeSize):
     for x, y in snakeList:
         pygame.draw.rect(gameWindow, color, [x, y, snakeSize, snakeSize])
+
+def welcome():
+    exitGame = False
+    while not exitGame:
+        gameWindow.fill(black)
+        screenScore("Welcome to SnakeFriendsAndRishtadar Game", white, 65, 200)
+        screenScore("Press Space Bar to Start", white, 245, 280)
+        for events in pygame.event.get():
+            if events.type == pygame.QUIT:
+                exitGame = True
+            if events.type == pygame.KEYDOWN:
+                if events.key == pygame.K_SPACE:
+                    gameLoop()
+        pygame.display.update()
+        clock.tick(30)
 
 def gameLoop():
 
@@ -60,7 +75,7 @@ def gameLoop():
                     exitGame = True
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        gameLoop()
+                        welcome()
         else:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -78,18 +93,19 @@ def gameLoop():
                     if event.key == pygame.K_DOWN:
                         velocityX = 0
                         velocityY = 5
+                    if event.key == pygame.K_q:
+                        score += 4
             
             snakeX = snakeX + velocityX
             snakeY = snakeY + velocityY
-            if abs(snakeX-foodX)<6 and abs(snakeY-foodY)<6:
+            if abs(snakeX-foodX)<5 and abs(snakeY-foodY)<4:
                 score += 1
                 foodX = random.randint(20, screenWidth/2)
                 foodY = random.randint(20, screenHeight/2) 
                 snakeLength += 5
                 if score>int(highScore):
                     highScore = score
-                    print(highScore)
-
+                    
             gameWindow.fill(white)
             screenScore('Score: ' + str(score)+ "             HighScore: "+ str(highScore), red, 5, 5)
             # pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
@@ -113,4 +129,4 @@ def gameLoop():
     pygame.quit()
     quit()
 
-gameLoop()
+welcome()
