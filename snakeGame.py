@@ -5,6 +5,7 @@ import pygame
 pygame.init()
 pygame.mixer.init()
 
+
 #colours
 white = (255, 255, 255)
 red = (255, 0, 0)
@@ -13,6 +14,7 @@ screenWidth = 1000
 screenHeight = 600
 
 gameWindow = pygame.display.set_mode((screenWidth, screenHeight))
+
 pygame.display.set_caption("NaganGame")
 pygame.display.update()
 
@@ -48,6 +50,10 @@ def welcome():
         clock.tick(30)
 
 def gameLoop():
+    # Background
+    bgImg1 = pygame.image.load('snakeBG.jpg')
+    #convert_alpha() helps to retain the game speed while bliting the game window again and again
+    bgImg = pygame.transform.scale(bgImg1, (screenWidth, screenHeight)).convert_alpha()                  
 
     # creating score
     gameOver = False
@@ -116,6 +122,7 @@ def gameLoop():
                     highScore = score
                     
             gameWindow.fill(white)
+            gameWindow.blit(bgImg, (0, 0))
             screenScore('Score: ' + str(score)+ "             HighScore: "+ str(highScore), red, 5, 5)
             # pygame.draw.rect(gameWindow, black, [snakeX, snakeY, snakeSize, snakeSize])
             pygame.draw.rect(gameWindow, red, [foodX, foodY, snakeSize, snakeSize])
@@ -135,7 +142,7 @@ def gameLoop():
                 gameOver = True
                 pygame.mixer.music.load("exp.wav")
                 pygame.mixer.music.play()
-            plotSnake(gameWindow, black, snakeList, snakeSize)
+            plotSnake(gameWindow, white, snakeList, snakeSize)
         pygame.display.update()
         clock.tick(fps)
 
