@@ -1,5 +1,6 @@
 import random
 import os
+from cv2 import getWindowImageRect
 import pygame
 
 pygame.init()
@@ -33,10 +34,14 @@ def plotSnake(gameWindow, color, snakeList, snakeSize):
         pygame.draw.rect(gameWindow, color, [x, y, snakeSize, snakeSize])
 
 def welcome(): 
+    bgImg1 = pygame.image.load('main.jpg')
+    #convert_alpha() helps to retain the game speed while bliting the game window again and again
+    bgImg = pygame.transform.scale(bgImg1, (screenWidth, screenHeight)).convert_alpha()   
     exitGame = False
     while not exitGame:
         gameWindow.fill(black)
-        screenScore("Welcome to SnakeFriendsAndRishtadar Game", white, 65, 200)
+        gameWindow.blit(bgImg, (0, 0))
+        screenScore("Welcome to Snakes", white, 265, 200)
         screenScore("Press Space Bar to Start", white, 245, 280)
         for events in pygame.event.get():
             if events.type == pygame.QUIT:
@@ -81,6 +86,7 @@ def gameLoop():
             with open("highScore.txt", "w") as f:
                 f.write(str(highScore)) 
             gameWindow.fill(white)
+            gameWindow.blit(bgImg, (0, 0))
             screenScore("Game Over! Press Enter to Continue", red, screenWidth/7, screenHeight/2)
 
             for event in pygame.event.get():
